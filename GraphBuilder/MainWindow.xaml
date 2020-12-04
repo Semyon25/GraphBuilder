@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GraphBuilder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="680">
+        Title="MainWindow" Height="500" Width="880">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -20,9 +20,11 @@
         </StackPanel>
 
         <Canvas x:Name="canvas" Grid.Row="1">
-            <Polyline Points="10,10,10,415, 660,415" Stroke="Black" StrokeThickness="2" />
-            <TextBlock Text="0" Margin="2,405,0,0" />
-            <TextBlock Text="{Binding MaxValue}" Margin="10,-3,0,0" />
+            <Line X1="10" Y1="10" X2="10" Y2="415" Stroke="Black" StrokeThickness="2" />
+            <Line X1="10" Y1="212" X2="860" Y2="212" Stroke="Black" StrokeThickness="2" />
+            <TextBlock Text="0" Margin="2,203,0,0" />
+            <TextBlock Text="200" Margin="0,-2,0,0" />
+            <TextBlock Text="-200" Margin="0,415,0,0" />
         </Canvas>
     </Grid>
 </Window>

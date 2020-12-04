@@ -43,12 +43,10 @@ namespace GraphBuilder
 
         SerialPort port = new SerialPort();
         List<double> values = new List<double>();
-        private double maxValue;
 
         public int PortName { get; set; } = 2;
 
         public string Command { get; set; } = "start_ADC_100";
-        public double MaxValue { get => maxValue; set { maxValue = value; OnPropertyChanged(); } }
 
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
@@ -98,41 +96,6 @@ namespace GraphBuilder
                 }
             }
         }
-
-        private void PlotGraph()
-        {
-            const int or = 10;
-            const int ot = 10;
-            const int width = 650;
-            const int heigth = 400;
-
-            int stepX = width / values.Count;
-            double stepY = (double)(heigth / values.Max());
-
-            for (int i = 0; i < canvas.Children.Count; i++)
-            {
-                if (canvas.Children[i] is Ellipse)
-                {
-                    canvas.Children.RemoveAt(i);
-                    i--;
-                }
-            }
-            for (int i = 0; i < values.Count; i++)
-            {
-                CreatePoint(or + i * stepX, ot + heigth - values[i] * stepY);
-            }
-            MaxValue = values.Max();
-        }
-
-        private void CreatePoint(int x, double y)
-        {
-            Ellipse ellipse = new Ellipse();
-            ellipse.Fill = Brushes.Black;
-            ellipse.Width = ellipse.Height = 6;
-            ellipse.Margin = new Thickness(x, y, 0, 0);
-            canvas.Children.Add(ellipse);
-        }
-
         private void Send_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -144,6 +107,40 @@ namespace GraphBuilder
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void PlotGraph()
+        {
+            const int or = 10;
+            const int ot = 10;
+            const int width = 850;
+            const int heigth = 400;
+
+            int stepX = width / values.Count;
+
+            for (int i = 0; i < canvas.Children.Count; i++)
+            {
+                if (canvas.Children[i] is Ellipse)
+                {
+                    canvas.Children.RemoveAt(i);
+                    i--;
+                }
+            }
+            for (int i = 0; i < values.Count; i++)
+            {
+                CreatePoint(or + i * stepX, ot + heigth / 2 - values[i]);
+            }
+        }
+
+        private void CreatePoint(int x, double y)
+        {
+            Ellipse ellipse = new Ellipse();
+            ellipse.Fill = Brushes.Black;
+            ellipse.Width = ellipse.Height = 3;
+            ellipse.Margin = new Thickness(x, y, 0, 0);
+            canvas.Children.Add(ellipse);
+        }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
